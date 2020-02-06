@@ -33,6 +33,24 @@ public class Home {
       
     }
 }
+      public static String[] takeAddBookInput()
+{      
+    Scanner inp = new Scanner(System.in);
+    String[] info = new String[5];
+    
+        System.out.println("\nEnter a title");
+        info[0] = inp.nextLine();
+        System.out.println("\nEnter a description");
+        info[1] = inp.nextLine();
+        System.out.println("\nEnter an isbn");
+        info[2] = inp.nextLine();
+        System.out.println("\nEnter an author");
+        info[3] = inp.nextLine();
+        System.out.println("\nEnter a pubisher");
+        info[4] = inp.nextLine();
+           
+        return info;
+}
     
     public static void main(String[] args)
     {
@@ -57,7 +75,8 @@ public class Home {
                  case(2):HttpMethods.listBooks();break;
                  case(3):int id = takeIdInput();
                          HttpMethods.displayBook(id);break;
-                 case(4):HttpMethods.addBook();break;
+                 case(4):String[] info = takeAddBookInput();
+                     HttpMethods.addBook(info);break;
                  case(5):HttpMethods.updateBook();break;
                  case(6):HttpMethods.deleteBook();break;
                  case(7):HttpMethods.quit();break;
