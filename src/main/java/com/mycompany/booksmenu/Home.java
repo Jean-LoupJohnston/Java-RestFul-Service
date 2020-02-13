@@ -46,12 +46,66 @@ public class Home {
         info[2] = inp.nextLine();
         System.out.println("\nEnter an author");
         info[3] = inp.nextLine();
-        System.out.println("\nEnter a pubisher");
+        System.out.println("\nEnter a publisher");
         info[4] = inp.nextLine();
            
         return info;
 }
-    
+    public static String[] updateBook(){
+        Scanner inp = new Scanner(System.in);
+        System.out.println("Please enter the book Id you like to update");
+        String id = inp.next();
+       String[] el = new String[3];
+       el[0]=id;
+       
+       while(true){
+       System.out.println("Enter 1: to change title, 2: to change isbn, 3: to change author, 4: change description 5: change publisher");
+       
+       
+       try{
+           int i = inp.nextInt();
+           if(i<0 || i>5){
+               System.out.println("The value is out of data");
+               continue;
+           }
+           
+           switch(i){
+               case 1:el[1]= "1";
+                   break;
+               case 2: el[1]="2";
+                   break;
+               case 3: el[1]="3";
+                   break;
+               case 4: el[1]="4";
+                   break;
+               case 5: el[1]="5";
+                   break;
+               
+           }
+           System.out.println("Enter new value");
+           String newVal= inp.next();
+           el[2]=newVal;
+           return el;
+        
+           
+           
+       }           catch(InputMismatchException e)
+         {
+             System.out.println("Invalid input, try again");
+             inp.next();
+         }    
+           
+       }   
+        
+    }
+      public static String deleteBook(){
+          Scanner inp = new Scanner(System.in);
+          System.out.println("Please enter an Id");
+          String id = inp.next();
+          
+          return id;
+        }
+        
     public static void main(String[] args)
     {
         
@@ -77,8 +131,10 @@ public class Home {
                          HttpMethods.displayBook(id);break;
                  case(4):String[] info = takeAddBookInput();
                      HttpMethods.addBook(info);break;
-                 case(5):HttpMethods.updateBook();break;
-                 case(6):HttpMethods.deleteBook();break;
+                 case(5):String[] values= updateBook();
+                         HttpMethods.updateBook(values);break;
+                 case(6): String dID = deleteBook();
+                     HttpMethods.deleteBook(dID);break;
                  case(7):HttpMethods.quit();break;
              }
          }

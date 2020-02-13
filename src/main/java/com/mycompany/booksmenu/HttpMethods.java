@@ -35,7 +35,7 @@ public class HttpMethods {
     
      public static void listBooks()
     {
-        HttpGet request = new HttpGet("https://httpbin.org/get");
+        HttpGet request = new HttpGet("http://localhost:8080/TheLibraryServices/webresources/showbooks");
         
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
@@ -55,7 +55,7 @@ public class HttpMethods {
     }
       public static void displayBook(int id)
     {
-        HttpGet request = new HttpGet("https://httpbin.org/get?id="+id);
+        HttpGet request = new HttpGet("http://localhost:8080/TheLibraryServices/webresources/getabook?id="+id);
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
              
@@ -84,7 +84,7 @@ public class HttpMethods {
             form.add(new BasicNameValuePair("publisher", bookInfo[4]));
             UrlEncodedFormEntity entity2 = new UrlEncodedFormEntity(form, Consts.UTF_8);
             
-            HttpPost request = new HttpPost("https://httpbin.org/post");
+            HttpPost request = new HttpPost("http://localhost:8080/TheLibraryServices/webresources/addbook");
             request.setEntity(entity2);
          
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -103,13 +103,56 @@ public class HttpMethods {
              System.out.println("Error");
          }
     }
-      public static void updateBook()
+      public static void updateBook(String[] str)
     {
-        System.out.println("udatebook");
+
+            List<NameValuePair> form = new ArrayList<>();
+            form.add(new BasicNameValuePair("id", str[0]));
+            form.add(new BasicNameValuePair("Attribute", str[1]));
+            form.add(new BasicNameValuePair("NewValue", str[2]));
+          
+            UrlEncodedFormEntity entity2 = new UrlEncodedFormEntity(form, Consts.UTF_8);
+            
+            HttpPut request = new HttpPut("http://localhost:8080/TheLibraryServices/webresources/updatebook");
+            request.setEntity(entity2);
+         
+         try (CloseableHttpClient httpClient = HttpClients.createDefault();
+             CloseableHttpResponse response = httpClient.execute(request)) {
+             
+         
+          HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                // return it as a String
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+            }
+         }
+         catch(Exception e)
+         {
+             System.out.println("Error");
+         }
     }
-       public static void deleteBook()
+       public static void deleteBook(String i)
     {
-        System.out.println("deletebook");
+
+            
+            HttpDelete request = new HttpDelete("http://localhost:8080/TheLibraryServices/webresources/deletebook/"+i);
+         
+         try (CloseableHttpClient httpClient = HttpClients.createDefault();
+             CloseableHttpResponse response = httpClient.execute(request)) {
+             
+         
+          HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                // return it as a String
+                String result = EntityUtils.toString(entity);
+                System.out.println(result);
+            }
+         }
+         catch(Exception e)
+         {
+             System.out.println("Error");
+         }
     }
         public static void quit()
     {
