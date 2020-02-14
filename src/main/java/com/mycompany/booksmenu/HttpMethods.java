@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpHeaders;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.*;
@@ -35,7 +36,7 @@ public class HttpMethods {
     
      public static void listBooks()
     {
-        HttpGet request = new HttpGet("http://localhost:8080/TheLibraryServices/webresources/showbooks");
+        HttpGet request = new HttpGet("http://localhost:8080/ServiceSystem/resources/library/listbooks");
         
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
@@ -55,7 +56,7 @@ public class HttpMethods {
     }
       public static void displayBook(int id)
     {
-        HttpGet request = new HttpGet("http://localhost:8080/TheLibraryServices/webresources/getabook?id="+id);
+        HttpGet request = new HttpGet("http://localhost:8080/ServiceSystem/resources/library/displaybook?id="+id);
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
              
@@ -78,13 +79,15 @@ public class HttpMethods {
         
             List<NameValuePair> form = new ArrayList<>();
             form.add(new BasicNameValuePair("title", bookInfo[0]));
-            form.add(new BasicNameValuePair("descrition", bookInfo[1]));
+            form.add(new BasicNameValuePair("description", bookInfo[1]));
             form.add(new BasicNameValuePair("isbn", bookInfo[2]));
             form.add(new BasicNameValuePair("author", bookInfo[3]));
             form.add(new BasicNameValuePair("publisher", bookInfo[4]));
             UrlEncodedFormEntity entity2 = new UrlEncodedFormEntity(form, Consts.UTF_8);
             
-            HttpPost request = new HttpPost("http://localhost:8080/TheLibraryServices/webresources/addbook");
+            HttpPost request = new HttpPost("http://localhost:8080/ServiceSystem/resources/library/addbook");
+            
+            request.setHeader(HttpHeaders.CONTENT_TYPE,"application/x-www-form-urlencoded");
             request.setEntity(entity2);
          
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -113,7 +116,8 @@ public class HttpMethods {
           
             UrlEncodedFormEntity entity2 = new UrlEncodedFormEntity(form, Consts.UTF_8);
             
-            HttpPut request = new HttpPut("http://localhost:8080/TheLibraryServices/webresources/updatebook");
+            HttpPut request = new HttpPut("http://localhost:8080/ServiceSystem/resources/library/updatebook");
+            request.setHeader(HttpHeaders.CONTENT_TYPE,"application/x-www-form-urlencoded");
             request.setEntity(entity2);
          
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -136,7 +140,7 @@ public class HttpMethods {
     {
 
             
-            HttpDelete request = new HttpDelete("http://localhost:8080/TheLibraryServices/webresources/deletebook/"+i);
+            HttpDelete request = new HttpDelete("http://localhost:8080/ServiceSystem/resources/library/deletebook/"+i);
          
          try (CloseableHttpClient httpClient = HttpClients.createDefault();
              CloseableHttpResponse response = httpClient.execute(request)) {
